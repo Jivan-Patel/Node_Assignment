@@ -104,3 +104,20 @@ exports.updateFields = async (req, res) => {
         });
     }
 }
+
+exports.deleteOneField = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await Note.deleteOne({ _id: id });
+        res.status(200).json({
+            success: true,
+            message: "Note fetched successfully",
+            data: null
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
