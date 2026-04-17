@@ -85,3 +85,22 @@ exports.replaceNote = async (req, res) => {
         });
     }
 }
+
+exports.updateFields = async (req, res) => {
+    const id = req.params.id;
+    const newNote = req.body;
+    try {
+        await Note.findByIdAndUpdate({ _id: id }, newNote);
+        const note = await Note.findOne({ _id: id });
+        res.status(200).json({
+            success: true,
+            message: "Note fetched successfully",
+            data: note
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
