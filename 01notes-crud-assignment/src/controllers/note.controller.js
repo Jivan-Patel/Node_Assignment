@@ -71,7 +71,7 @@ exports.replaceNote = async (req, res) => {
     const id = req.params.id;
     const newNote = req.body;
     try {
-        await Note.findOneAndUpdate({ _id: id }, newNote);
+        await Note.findOneAndReplace({ _id: id }, newNote);
         const note = await Note.findOne({ _id: id });
         res.status(200).json({
             success: true,
