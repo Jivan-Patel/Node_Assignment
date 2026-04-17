@@ -20,10 +20,10 @@ exports.createNote = async (req, res) => {
 exports.createNotes = async (req, res) => {
   try {
     const notes = req.body.map((noteData) => new Note(noteData));
-    const savedNotes = await Promise.all(notes.map((note) => note.save()));
+    const savedNotes = await Note.insertMany(notes);
     res.status(201).json({
       success: true,
-      message: "Notes created successfully",
+      message: `${notes.length} notes created successfully`,
       data: savedNotes
     });
   } catch (error) {
@@ -39,7 +39,7 @@ exports.getNotes = async (req, res) => {
         const notes = await Note.find();
         res.status(200).json({
             success: true,
-            message: "Notes retrieved successfully",
+            message: "Notes fetched successfully",
             data: notes
         });
     } catch (error) {
@@ -75,7 +75,7 @@ exports.replaceNote = async (req, res) => {
         const note = await Note.findOne({ _id: id });
         res.status(200).json({
             success: true,
-            message: "Note fetched successfully",
+            message: "Note replaced successfully",
             data: note
         });
     } catch (error) {
@@ -94,7 +94,7 @@ exports.updateFields = async (req, res) => {
         const note = await Note.findOne({ _id: id });
         res.status(200).json({
             success: true,
-            message: "Note fetched successfully",
+            message: "Note updated successfully",
             data: note
         });
     } catch (error) {
@@ -111,7 +111,7 @@ exports.deleteOneField = async (req, res) => {
         await Note.deleteOne({ _id: id });
         res.status(200).json({
             success: true,
-            message: "Note fetched successfully",
+            message: "Note deleted successfully",
             data: null
         });
     } catch (error) {
@@ -125,10 +125,10 @@ exports.deleteOneField = async (req, res) => {
 exports.deleteBulkFields = async (req, res) => {
     const ids = req.body.ids;
     try {
-        await Note.deleteMany({ _id: { $in: ids } });
+        const result = await Note.deleteMany({ _id: { $in: ids } });
         res.status(200).json({
             success: true,
-            message: "Note fetched successfully",
+            message: `${result.deletedCount} note fetched successfully`,
             data: null
         });
     } catch (error) {
