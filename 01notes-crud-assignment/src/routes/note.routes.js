@@ -1,5 +1,5 @@
 const Note = require("../models/note.model");
-const { createNote, createNotes, getNotes, getNoteByID, replaceNote, updateFields, deleteOneField } = require("../controllers/note.controller");
+const { createNote, createNotes, getNotes, getNoteByID, replaceNote, updateFields, deleteOneField, deleteBulkFields } = require("../controllers/note.controller");
 const express = require("express");
 const router = express.Router();
 
@@ -9,6 +9,7 @@ router.get("/notes", getNotes);
 router.get("/notes/:id", getNoteByID);
 router.put("/notes/:id", replaceNote);
 router.patch("/notes/:id", updateFields);
+router.delete("/notes/bulk", deleteBulkFields);
 router.delete("/notes/:id", deleteOneField);
 
 module.exports = router;

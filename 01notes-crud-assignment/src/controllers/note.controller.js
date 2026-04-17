@@ -121,3 +121,20 @@ exports.deleteOneField = async (req, res) => {
         });
     }
 }
+
+exports.deleteBulkFields = async (req, res) => {
+    const ids = req.body.ids;
+    try {
+        await Note.deleteMany({ _id: { $in: ids } });
+        res.status(200).json({
+            success: true,
+            message: "Note fetched successfully",
+            data: null
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
