@@ -16,3 +16,20 @@ exports.createNote = async (req, res) => {
     });
   }
 };
+
+exports.createNotes = async (req, res) => {
+  try {
+    const notes = req.body.map((noteData) => new Note(noteData));
+    const savedNotes = await Promise.all(notes.map((note) => note.save()));
+    res.status(201).json({
+      success: true,
+      message: "Notes created successfully",
+      data: savedNotes
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
